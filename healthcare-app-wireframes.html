@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Heathians — Clickable Wireframes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#2C9C9C; --teal-d:#1F8585; --teal-grad:linear-gradient(135deg,#3CB0AA 0%,#2C9C9C 100%);
+  --green:#2FB479; --green-grad:linear-gradient(135deg,#5EC08C 0%,#33A98C 100%);
+  --blue:#4A86E8; --blue-grad:linear-gradient(135deg,#5AA9E6 0%,#5B86E8 100%);
+  --coral:#EE6C4D; --orange:#F2994A; --red:#E5564B;
+  --sky:linear-gradient(180deg,#CDE8FA 0%,#E4F2FC 55%,#F2F7FB 100%);
+  --bg:#F2F6F9; --card:#FFFFFF; --text:#23303A; --muted:#7C8B97;
+  --line:#E8EEF3; --soft:#F1F5F8; --pastel-b:#D8ECF7; --pastel-p:#E2E0F4; --pastel-r:#F7E0DD;
+  --shadow:0 18px 40px rgba(31,77,97,.12),0 4px 12px rgba(31,77,97,.05);
+  --shadow-sm:0 6px 18px rgba(31,77,97,.07),0 1px 3px rgba(31,77,97,.04);
+  --r:20px; --r-sm:13px;
+  --font:"Poppins",-apple-system,"SF Pro Display","Inter",system-ui,Segoe UI,Roboto,sans-serif;
+}
+html[data-theme="dark"]{
+  --bg:#0C1116; --card:#161D24; --text:#E9EFF4; --muted:#90A0AD; --line:#232C35; --soft:#1A222B;
+  --sky:linear-gradient(180deg,#13313F 0%,#13242E 60%,#0C1116 100%);
+  --pastel-b:#16323f; --pastel-p:#272445; --pastel-r:#3a2420;
+  --shadow:0 12px 30px rgba(0,0,0,.5); --shadow-sm:0 6px 18px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:var(--font);background:radial-gradient(900px 500px at 30% -5%,#dfeefc,transparent),#e7eef4;color:var(--text);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:18px 10px 40px;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+html[data-theme="dark"] body{background:#05080c}
+
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
+.toolbar h1{font-size:15px;margin:0 8px 0 0;letter-spacing:-.01em;font-weight:700}
+.btn{border:0;cursor:pointer;font-family:var(--font);font-weight:600;font-size:12px;
+  padding:9px 14px;border-radius:999px;background:#fff;color:var(--text);box-shadow:var(--shadow-sm)}
+.btn.alt{background:var(--teal-grad);color:#fff}
+html[data-theme="dark"] .btn{background:#161D24;color:#E9EFF4}
+.hint{font-size:11.5px;color:#5b6b7d;max-width:600px;text-align:center;line-height:1.5;margin-bottom:14px}
+html[data-theme="dark"] .hint{color:#8fa0b3}
+
+.phone{width:390px;max-width:96vw;height:844px;max-height:84vh;background:var(--bg);
+  border-radius:46px;box-shadow:0 40px 80px rgba(20,50,70,.30),0 0 0 12px #0b0f14,0 0 0 13px #20262e;
+  position:relative;overflow:hidden}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:150px;height:30px;background:#0b0f14;border-radius:0 0 18px 18px;z-index:60}
+.status{position:absolute;top:0;left:0;right:0;height:46px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 26px;font-size:12.5px;font-weight:700;z-index:55;color:var(--text)}
+.viewport{position:absolute;inset:0;top:0;overflow:hidden}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding-bottom:150px;display:none;animation:fade .3s ease;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.statuspad{height:46px}
+.pad{padding:12px 16px}
+
+/* generic */
+.row{display:flex;align-items:center;gap:10px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:15px;border:1px solid rgba(31,77,97,.05)}
+html[data-theme="dark"] .card{border-color:rgba(255,255,255,.04)}
+.muted{color:var(--muted)} .b{font-weight:700} .sb{font-weight:600}
+.h1{font-size:21px;font-weight:700;letter-spacing:-.01em;margin:0}
+.h2{font-size:17px;font-weight:700;margin:0}
+.h3{font-size:14px;font-weight:600;margin:0}
+.sm{font-size:12.5px}.xs{font-size:11px}
+.teal{color:var(--teal)} .coral{color:var(--coral)} .orange{color:var(--orange)}
+.strike{text-decoration:line-through;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:var(--card);
+  font-size:12.5px;font-weight:500;color:var(--text);border:1.5px solid var(--line);white-space:nowrap;cursor:pointer}
+.chip.on{border-color:var(--teal);color:var(--teal);background:rgba(44,156,156,.06);font-weight:600}
+.pill{padding:4px 9px;border-radius:7px;font-size:10px;font-weight:700;display:inline-block}
+.pill.green{background:rgba(47,180,121,.15);color:var(--green)}
+.pill.coral{background:rgba(238,108,77,.15);color:var(--coral)}
+.pill.blue{background:rgba(74,134,232,.15);color:var(--blue)}
+.pill.amber{background:rgba(242,153,74,.18);color:var(--orange)}
+.btn-teal{display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;font-family:var(--font);
+  font-weight:600;font-size:13px;color:#fff;background:var(--teal-grad);padding:11px 18px;border-radius:11px}
+.cta{display:block;width:100%;text-align:center;border:0;cursor:pointer;font-family:var(--font);font-weight:700;
+  font-size:15px;color:#fff;background:var(--teal-grad);padding:15px;border-radius:15px;
+  box-shadow:0 12px 24px rgba(44,156,156,.34),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .12s,box-shadow .2s}
+.cta:active{transform:translateY(1px) scale(.99);box-shadow:0 6px 14px rgba(44,156,156,.3)}
+.cta.ghost{background:var(--card);color:var(--teal);box-shadow:var(--shadow-sm);border:1.5px solid var(--line)}
+.divider{height:1px;background:var(--line);margin:12px 0}
+.input{width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:13px 15px;font-family:var(--font);font-size:14px;color:var(--text);outline:none}
+.back{width:36px;height:36px;border-radius:11px;background:var(--card);box-shadow:var(--shadow-sm);display:grid;place-items:center;font-size:16px;cursor:pointer;border:1px solid var(--line)}
+.skeleton{background:linear-gradient(90deg,var(--soft) 25%,var(--line) 37%,var(--soft) 63%);background-size:400% 100%;animation:shim 1.3s infinite;border-radius:10px}
+@keyframes shim{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.hscroll{display:flex;gap:11px;overflow-x:auto;padding:2px 16px 4px;scrollbar-width:none}
+.hscroll::-webkit-scrollbar{display:none}
+.bar{height:7px;border-radius:999px;background:var(--soft);overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:999px;background:var(--teal-grad)}
+.dot{width:8px;height:8px;border-radius:50%}
+
+/* header (sky) */
+.hdr{background:var(--sky);padding:12px 16px 18px;border-radius:0 0 26px 26px;position:relative;
+  box-shadow:0 8px 24px rgba(74,134,232,.08)}
+.hdr::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.5),transparent 70%);pointer-events:none}
+.logo{width:34px;height:34px;border-radius:10px;background:#1B3A6B;display:grid;place-items:center;color:#fff;font-size:16px}
+.wallet{background:var(--card);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;box-shadow:var(--shadow-sm);display:flex;gap:6px;align-items:center}
+.iconbtn{position:relative;width:34px;height:34px;display:grid;place-items:center;font-size:19px;cursor:pointer}
+.badge{position:absolute;top:-4px;right:-6px;background:var(--orange);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:999px;display:grid;place-items:center;padding:0 3px}
+.searchbar{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow-sm);margin-top:12px}
+.searchbar input{border:0;outline:none;background:transparent;font-family:var(--font);font-size:13px;width:100%;color:var(--text)}
+.pulse{width:22px;height:22px;flex:none}
+
+/* category tiles */
+.cats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.cat{cursor:pointer;text-align:center}
+.cat .tile{border-radius:20px;height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative;font-size:40px;
+  box-shadow:0 8px 20px rgba(31,77,97,.08),inset 0 1px 0 rgba(255,255,255,.5);transition:transform .15s}
+.cat:active .tile{transform:scale(.96)}
+.cat .tile::before{content:"";position:absolute;top:0;left:0;right:0;height:50%;border-radius:20px 20px 40px 40px;background:linear-gradient(180deg,rgba(255,255,255,.35),transparent);pointer-events:none}
+.cat .off{font-size:9.5px;font-weight:700;color:var(--teal);background:rgba(255,255,255,.85);padding:4px 9px;border-radius:999px;position:absolute;bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+html[data-theme="dark"] .cat .off{background:rgba(0,0,0,.35);color:#9fe}
+.cat label{display:block;font-size:11px;font-weight:600;margin-top:7px;line-height:1.25}
+
+/* promo pair */
+.promo2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:14px}
+.promo{border-radius:16px;padding:14px;height:118px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+
+/* package card */
+.pkg{min-width:238px;background:var(--card);border:1px solid rgba(31,77,97,.06);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .15s,box-shadow .2s}
+.pkg:active{transform:translateY(2px)}
+.pkg .top{padding:15px 15px 12px}
+.pkg .pricebar{background:linear-gradient(180deg,rgba(44,156,156,.10),rgba(44,156,156,.05));padding:11px 15px}
+.pkg .bookbar{background:var(--teal-grad);color:#fff;text-align:center;padding:13px;font-weight:700;font-size:13px;letter-spacing:.06em;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.hex{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:6px 8px;border-radius:8px;text-align:center;line-height:1.2}
+
+/* ribbon */
+.ribbon{background:var(--green-grad);color:#fff;border-radius:13px;padding:13px 16px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:10px;margin-top:14px;box-shadow:0 8px 18px rgba(47,180,121,.25)}
+
+/* gauge */
+.gauge{position:relative;width:130px;height:130px;margin:0 auto}
+.gauge .num{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+
+/* call to book floating */
+.calltobook{position:absolute;right:14px;bottom:96px;z-index:52;background:var(--card);border-radius:999px;
+  box-shadow:0 14px 30px rgba(20,50,70,.22),0 2px 6px rgba(20,50,70,.08);padding:7px 18px 7px 7px;display:flex;align-items:center;gap:10px;cursor:pointer;border:1px solid var(--line);animation:floaty 3s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.calltobook .pgreen{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#34D17A,#1FA84F);display:grid;place-items:center;color:#fff;font-size:16px;box-shadow:0 4px 12px rgba(31,168,79,.4)}
+.calltobook span{font-weight:700;font-size:13px}
+
+/* bottom nav — fixed glass layer */
+.tabbar{position:absolute;left:12px;right:12px;bottom:14px;height:66px;border-radius:24px;
+  background:rgba(255,255,255,.78);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);
+  box-shadow:0 14px 40px rgba(20,50,70,.16),0 2px 8px rgba(20,50,70,.06),inset 0 1px 0 rgba(255,255,255,.7);
+  display:flex;align-items:center;justify-content:space-between;padding:0 10px;z-index:50;border:1px solid rgba(255,255,255,.55)}
+html[data-theme="dark"] .tabbar{background:rgba(22,29,36,.82);border-color:rgba(255,255,255,.06);box-shadow:0 14px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05)}
+.tab{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--muted);cursor:pointer;flex:1;padding:10px 0;transition:color .2s}
+.tab svg{width:22px;height:22px;transition:transform .2s}
+.tab.active{color:var(--teal)}
+.tab.active svg{transform:translateY(-1px) scale(1.06)}
+.tab.active::before{content:"";position:absolute;top:5px;width:40px;height:30px;border-radius:11px;background:rgba(44,156,156,.12)}
+.navav{position:relative;width:46px;height:46px;border-radius:50%;background:var(--teal-grad);display:grid;place-items:center;color:#fff;font-weight:800;cursor:pointer;flex:none;margin:0 4px;box-shadow:0 6px 16px rgba(44,156,156,.4),inset 0 1px 0 rgba(255,255,255,.3);font-size:20px}
+.navav .nb{position:absolute;top:-6px;left:-2px;background:var(--red);color:#fff;font-size:7.5px;font-weight:700;padding:2px 5px;border-radius:6px}
+
+/* list / kv */
+.list-row{display:flex;align-items:center;gap:12px;padding:12px 0;cursor:pointer;border-bottom:1px solid var(--line)}
+.ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:19px;flex:none;background:rgba(44,156,156,.1)}
+.kv{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px dashed var(--line)}
+.seg{display:flex;background:var(--soft);border-radius:13px;padding:4px;gap:4px}
+.seg button{flex:1;border:0;background:transparent;font-family:var(--font);font-weight:600;font-size:12.5px;padding:9px;border-radius:10px;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--card);color:var(--teal);box-shadow:var(--shadow-sm)}
+.tracker .step{display:flex;gap:12px}
+.tracker .line{display:flex;flex-direction:column;align-items:center}
+.tracker .d{width:13px;height:13px;border-radius:50%;background:var(--line);flex:none}
+.tracker .d.done{background:var(--green)} .tracker .d.now{background:var(--teal);box-shadow:0 0 0 4px rgba(44,156,156,.2)}
+.tracker .s{width:2px;flex:1;background:var(--line);margin:2px 0}
+.map{height:140px;border-radius:14px;background:linear-gradient(0deg,rgba(44,156,156,.05),rgba(44,156,156,.05)),
+  repeating-linear-gradient(0deg,transparent,transparent 22px,rgba(120,140,160,.16) 23px),
+  repeating-linear-gradient(90deg,transparent,transparent 22px,rgba(120,140,160,.16) 23px),var(--soft);position:relative;overflow:hidden}
+.map .pin{position:absolute;font-size:21px}
+.bubble{max-width:84%;padding:11px 13px;border-radius:16px;font-size:12.5px;line-height:1.5}
+.bubble.ai{background:var(--card);box-shadow:var(--shadow-sm);border:1px solid var(--line);border-bottom-left-radius:5px}
+.bubble.me{background:var(--teal-grad);color:#fff;border-bottom-right-radius:5px;margin-left:auto}
+.dots{display:flex;gap:7px;justify-content:center}
+.dots i{width:7px;height:7px;border-radius:999px;background:var(--line)}
+.dots i.on{width:22px;background:var(--teal)}
+
+/* modal */
+.overlay{position:absolute;inset:0;background:rgba(15,30,40,.45);z-index:70;display:none;align-items:center;justify-content:center;padding:24px;animation:fade .25s}
+.overlay.show{display:flex}
+.modal{background:var(--card);border-radius:22px;padding:18px;width:100%;text-align:center;position:relative}
+.modal .x{position:absolute;top:-46px;left:50%;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow);color:#333}
+
+@media (max-width:430px){.phone{border-radius:0;height:90vh;box-shadow:none}.notch{display:none}body{padding:6px}}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>Heathians — Clickable Prototype</h1>
+  <button class="btn" onclick="toggleTheme()">🌗 <span id="themeLbl">Dark mode</span></button>
+  <button class="btn" onclick="go('home')">🏠 Home</button>
+  <button class="btn" onclick="go('splash')">↺ Restart</button>
+  <button class="btn alt" onclick="go('index')">🗂 Screen index</button>
+</div>
+<div class="hint">Clickable wireframes matched to your app UI • sky-blue header, teal buttons, Home/Care/Vitals/Profile nav, green Call-to-Book • tap categories, package cards, tabs, BOOK NOW, and the nav. Built from Healthians' real flow.</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="status"><span id="clock">8:27</span><span>●●●● &nbsp;5G &nbsp;🔋</span></div>
+  <div class="viewport" id="vp">
+
+<!-- ===== SPLASH ===== -->
+<section class="screen active" id="screen-splash" style="background:var(--teal-grad)">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:#fff;padding:30px">
+    <div style="width:90px;height:90px;border-radius:26px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;font-size:42px">❤️‍🩹</div>
+    <div style="text-align:center"><div style="font-size:32px;font-weight:800;letter-spacing:-.02em">Heathians</div>
+      <div style="opacity:.92;font-size:12.5px;margin-top:4px">Smart Diagnostics • At-Home Sample Collection</div></div>
+    <div class="skeleton" style="width:110px;height:5px;opacity:.5;margin-top:4px"></div>
+    <button class="cta ghost" style="position:absolute;bottom:38px;width:calc(100% - 60px)" onclick="go('onboarding')">Get Started</button>
+  </div>
+</section>
+
+<!-- ===== INDEX ===== -->
+<section class="screen" id="screen-index"><div class="statuspad"></div>
+  <div class="pad"><div class="between" style="margin:4px 0 12px"><div class="h1">Screen Index</div><div class="back" onclick="back()">←</div></div>
+  <p class="muted sm" style="margin-top:0">Jump to any screen.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px" id="idxGrid"></div></div>
+</section>
+
+<!-- ===== ONBOARDING ===== -->
+<section class="screen" id="screen-onboarding"><div class="statuspad"></div>
+  <div class="pad" style="display:flex;flex-direction:column;min-height:740px">
+    <div class="between"><span class="b teal">Heathians</span><span class="muted sm" style="cursor:pointer" onclick="go('login')">Skip</span></div>
+    <div id="obArt" style="margin-top:18px;height:280px;border-radius:24px;background:var(--sky);display:grid;place-items:center;font-size:100px">🏠</div>
+    <div style="margin-top:24px"><div class="dots" id="obDots"><i class="on"></i><i></i><i></i><i></i></div>
+      <h2 class="h1" id="obTitle" style="margin-top:16px;font-size:23px">Book Lab Tests @ Home</h2>
+      <p class="muted" id="obText" style="font-size:13.5px;line-height:1.55">Doorstep sample collection by certified phlebotomists. Pick a slot — no clinics, no queues.</p></div>
+    <button class="cta" style="margin-top:auto" id="obBtn" onclick="obNext()">Next</button>
+  </div>
+</section>
+
+<!-- ===== LOGIN ===== -->
+<section class="screen" id="screen-login"><div class="statuspad"></div>
+  <div class="pad" style="min-height:740px;display:flex;flex-direction:column">
+    <div style="height:20px"></div>
+    <div class="logo" style="width:58px;height:58px;border-radius:18px;font-size:28px">❤️‍🩹</div>
+    <h1 class="h1" style="margin-top:20px;font-size:26px">Welcome to Heathians</h1>
+    <p class="muted" style="font-size:13.5px;margin-top:6px">Login to book tests, track reports & your health score.</p>
+    <div style="margin-top:22px"><label class="sm b muted">Mobile number</label>
+      <div class="searchbar" style="margin-top:8px;box-shadow:none;border:1.5px solid var(--line)"><span class="b">🇮🇳 +91</span><input value="98765 43210" inputmode="numeric"></div>
+      <button class="cta" style="margin-top:14px" onclick="go('otp')">Get OTP</button></div>
+    <div class="row" style="margin:20px 0"><div class="divider" style="flex:1"></div><span class="muted xs">or</span><div class="divider" style="flex:1"></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+      <button class="cta ghost" onclick="go('home')"> Google</button><button class="cta ghost" onclick="go('home')"> Apple</button></div>
+    <button class="cta ghost" style="margin-top:11px;border-style:dashed" onclick="go('home')">Continue as Guest</button>
+    <p class="muted xs" style="text-align:center;margin-top:auto;line-height:1.5">By continuing you agree to our Terms & Privacy Policy.</p>
+  </div>
+</section>
+
+<!-- ===== OTP ===== -->
+<section class="screen" id="screen-otp"><div class="statuspad"></div>
+  <div class="pad" style="min-height:740px;display:flex;flex-direction:column">
+    <div class="back" onclick="back()" style="margin:4px 0 16px">←</div>
+    <h1 class="h1">Verify OTP</h1>
+    <p class="muted" style="font-size:13.5px">Code sent to <b style="color:var(--text)">+91 98765 43210</b></p>
+    <div class="row" style="gap:9px;margin-top:22px;justify-content:space-between">
+      <input class="input" style="text-align:center;font-size:20px;font-weight:800;padding:14px 0" value="8"><input class="input" style="text-align:center;font-size:20px;font-weight:800;padding:14px 0" value="2"><input class="input" style="text-align:center;font-size:20px;font-weight:800;padding:14px 0" value="7"><input class="input" style="text-align:center;font-size:20px;font-weight:800;padding:14px 0" value="1"><input class="input" style="text-align:center;font-size:20px;font-weight:800;padding:14px 0" value="0"><input class="input" style="text-align:center;font-size:20px;font-weight:800;padding:14px 0" value="6">
+    </div>
+    <p class="muted sm" style="margin-top:16px">Resend in <b class="teal">00:24</b></p>
+    <button class="cta" style="margin-top:auto" onclick="go('home')">Verify & Continue</button>
+  </div>
+</section>
+
+<!-- ===== HOME ===== -->
+<section class="screen" id="screen-home">
+  <div class="hdr">
+    <div class="statuspad"></div>
+    <div class="between">
+      <div class="row"><div class="logo">❤️‍🩹</div>
+        <div><div class="h2" style="font-size:18px">Hi, Harshal</div><div class="xs" style="color:var(--orange);font-weight:600">📍 mumbai ›</div></div></div>
+      <div class="row" style="gap:8px"><div class="wallet">💳 ₹1175</div>
+        <div class="iconbtn" onclick="go('notifications')">🔔<span class="badge">10</span></div>
+        <div class="iconbtn" onclick="go('cart')">🛒</div></div>
+    </div>
+    <div style="text-align:center;margin-top:6px"><span class="pill blue">💙 Happy Father's Day</span></div>
+    <div class="searchbar" onclick="go('search')">
+      <svg class="pulse" viewBox="0 0 24 24" fill="none" stroke="#2C9C9C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2-6 3 12 2.5-7 1.5 4 1.5-3H22"/></svg>
+      <input placeholder="Search for 'CBC'  ·  'MRI Brain'" readonly><span style="font-size:17px">🎤</span>
+    </div>
+  </div>
+
+  <div class="pad">
+    <!-- categories -->
+    <div class="cats">
+      <div class="cat" onclick="go('blood')"><div class="tile" style="background:var(--pastel-b)">🩸<span class="off">Up to 79% off</span></div><label>Blood Tests</label></div>
+      <div class="cat" onclick="go('care')"><div class="tile" style="background:var(--pastel-p)">🩻<span class="off">Up to 70% off</span></div><label>X-Rays, Scans &amp; MRI</label></div>
+      <div class="cat" onclick="go('care')"><div class="tile" style="background:var(--pastel-r)">🧑‍⚕️<span class="off">Up to 75% off</span></div><label>Doctor &amp; Diet</label></div>
+    </div>
+
+    <!-- promo pair -->
+    <div class="promo2">
+      <div class="promo" style="background:var(--blue-grad)" onclick="go('blood')">
+        <span class="pill" style="background:var(--coral);align-self:flex-start">New</span>
+        <div><div class="b" style="font-size:14px;line-height:1.25">Book Via Doctor Prescription</div><div class="xs" style="opacity:.9;margin-top:3px">Tests as per your prescription</div></div>
+      </div>
+      <div class="promo" style="background:linear-gradient(135deg,#7C8B6E,#5E6E54)" onclick="go('checkout')">
+        <div class="b" style="font-size:15px;line-height:1.25">Book Lab Tests @ Home</div>
+        <div class="xs" style="opacity:.9;letter-spacing:.05em">DOORSTEP SAMPLE SERVICE</div>
+      </div>
+    </div>
+
+    <!-- packages -->
+    <div class="between" style="margin:20px 2px 12px"><div class="h2">Popular Blood Test Packages</div><div class="back" style="width:30px;height:30px;font-size:14px" onclick="go('blood')">›</div></div>
+    <div class="hscroll" style="margin:0 -16px 4px">
+      <div class="chip on">Popular</div><div class="chip">Fever</div><div class="chip">STD</div><div class="chip">Vitamins</div><div class="chip">Diabetes</div><div class="chip">Heart</div>
+    </div>
+    <div class="ribbon">🔥 <span>Get upto 70% OFF on all bookings.</span></div>
+
+    <div class="hscroll" style="margin:14px -16px 0">
+      <div class="pkg" onclick="go('detail')">
+        <div class="top"><div class="h3" style="line-height:1.3">Healthy India 2026 Full Body Checkup Lite</div>
+          <div class="between" style="margin-top:9px"><span class="sm teal b">🧪 80 Tests</span><span class="hex">GROUP<br>OFFERS<br><span style="font-size:8px">UPTO 82% OFF</span></span></div>
+          <div class="sm" style="text-decoration:underline;margin-top:8px;color:var(--muted)">Details ››</div></div>
+        <div class="pricebar"><div class="xs muted b">EXCLUSIVE OFFER</div><div><span class="b" style="font-size:16px">₹1046</span> <span class="strike sm">₹4548</span></div></div>
+        <div class="bookbar">BOOK NOW</div>
+      </div>
+      <div class="pkg" onclick="go('detail')">
+        <div class="top"><div class="h3" style="line-height:1.3">Healthians Prime Care Diabetic Checkup</div>
+          <div class="between" style="margin-top:9px"><span class="sm teal b">🧪 71 Tests</span><span class="hex">GROUP<br>OFFERS<br><span style="font-size:8px">UPTO 82% OFF</span></span></div>
+          <div class="sm" style="text-decoration:underline;margin-top:8px;color:var(--muted)">Details ››</div></div>
+        <div class="pricebar"><div class="xs muted b">EXCLUSIVE OFFER</div><div><span class="b" style="font-size:16px">₹904</span> <span class="strike sm">₹3920</span></div></div>
+        <div class="bookbar">BOOK NOW</div>
+      </div>
+    </div>
+
+    <!-- personalized dashboard -->
+    <div class="h2" style="margin:22px 2px 4px">Your dashboard</div>
+    <p class="muted xs" style="margin:0 2px 12px">Welcome to your personalised health dashboard</p>
+
+    <div class="promo" style="background:var(--blue-grad);height:auto;padding:16px">
+      <div class="between"><div><div class="xs" style="opacity:.9">Exclusive Offer!</div><div class="b" style="font-size:20px">Upto 70% Off</div><div class="xs" style="opacity:.9">next booking</div></div>
+        <button class="btn" style="background:#fff;color:var(--blue)" onclick="go('blood')">Claim Now</button></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:11px">
+      <div class="card"><div class="between"><span class="xs muted">Last Booking</span><span class="xs muted">03 Nov</span></div>
+        <div class="sm b" style="margin-top:6px;line-height:1.3">Upgrade Health Package, Blood Glucose F…</div>
+        <div class="xs muted" style="margin-top:4px">ID: 1793205849</div>
+        <button class="btn-teal" style="margin-top:10px;width:100%;background:rgba(44,156,156,.1);color:var(--teal)" onclick="go('reports')">📄 Report</button></div>
+      <div class="card"><div class="sm b" style="line-height:1.3">Book package curated for Harshal Patil</div>
+        <div style="font-size:30px;margin-top:8px">🫶</div>
+        <button class="btn-teal" style="margin-top:8px;width:100%" onclick="go('detail')">Book Now</button></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:11px">
+      <div class="card" style="background:linear-gradient(135deg,#EAF3E1,#F3F6EC)"><div class="coral b" style="font-size:18px">FREE</div>
+        <div class="sm b">Diet Consultation for you</div><button class="btn-teal" style="margin-top:10px" onclick="go('care')">Claim now</button></div>
+      <div class="card" style="background:linear-gradient(135deg,#EAF3E1,#F3F6EC)"><div class="xs muted b">RECOMMENDED</div>
+        <div class="sm b">IMMUNO-PLUS</div><div class="xs"><span class="b">₹1095</span> <span class="coral b">55% Off</span></div>
+        <button class="btn-teal" style="margin-top:8px" onclick="go('detail')">Buy Now</button></div>
+    </div>
+
+    <!-- health score -->
+    <div class="card" style="margin-top:11px;background:linear-gradient(135deg,#E6F4EC,#E3F1F6);cursor:pointer" onclick="go('vitals')">
+      <div class="h3 teal" style="text-align:center;font-weight:700">Your Health Score</div>
+      <div class="gauge" style="width:108px;height:108px;margin-top:6px">
+        <svg width="108" height="108" viewBox="0 0 108 108" style="transform:rotate(-90deg)">
+          <circle cx="54" cy="54" r="44" fill="none" stroke="rgba(44,156,156,.18)" stroke-width="9"/>
+          <circle cx="54" cy="54" r="44" fill="none" stroke="#2C9C9C" stroke-width="9" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="52"/></svg>
+        <div class="num"><div style="font-size:28px;font-weight:800">81</div></div>
+      </div>
+      <div class="card" style="margin-top:8px">
+        <div class="sm b" style="text-align:center;color:var(--orange)">⚠️ You need improvement in</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;text-align:center">
+          <div>💊<div class="xs b">Vitamin-B12</div><div class="xs muted">101 pg/ml</div></div>
+          <div>🥓<div class="xs b">LDL</div><div class="xs muted">107 mg/dL</div></div>
+          <div>🟡<div class="xs b">Vitamin-D</div><div class="xs muted">29 ng/mL</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SEARCH ===== -->
+<section class="screen" id="screen-search"><div class="statuspad"></div>
+  <div class="pad"><div class="row" style="margin-bottom:12px"><div class="back" onclick="back()">←</div>
+    <div class="searchbar" style="flex:1;margin:0"><svg class="pulse" viewBox="0 0 24 24" fill="none" stroke="#2C9C9C" stroke-width="2" stroke-linecap="round"><path d="M2 12h4l2-6 3 12 2.5-7 1.5 4 1.5-3H22"/></svg><input placeholder="Search tests, packages, scans…" value="vitamin"></div></div>
+    <div class="h3 muted xs" style="margin:6px 2px">POPULAR SEARCHES</div>
+    <div class="hscroll" style="margin:0 -16px 10px"><div class="chip">CBC</div><div class="chip">Thyroid</div><div class="chip">MRI Brain</div><div class="chip">Vitamin D</div><div class="chip">HbA1c</div></div>
+    <div class="h3 muted xs" style="margin:10px 2px">RESULTS</div>
+    <div class="card list-row" onclick="go('detail')"><span class="ico">💊</span><div style="flex:1"><div class="sm b">Vitamin B12 Test</div><div class="xs muted">₹499 · Report in 12h</div></div><span class="btn-teal" style="padding:7px 14px">Add</span></div>
+    <div class="card list-row" style="border:0;margin-top:8px" onclick="go('detail')"><span class="ico">🟡</span><div style="flex:1"><div class="sm b">Vitamin D Total — 25 OH</div><div class="xs muted">₹699 · Report in 24h</div></div><span class="btn-teal" style="padding:7px 14px">Add</span></div>
+    <div class="card list-row" style="border:0;margin-top:8px" onclick="go('detail')"><span class="ico">📦</span><div style="flex:1"><div class="sm b">Vitamin Profile (Advanced)</div><div class="xs muted">₹1299 · 6 parameters</div></div><span class="btn-teal" style="padding:7px 14px">Add</span></div>
+  </div>
+</section>
+
+<!-- ===== BLOOD / CATEGORY LISTING ===== -->
+<section class="screen" id="screen-blood"><div class="statuspad"></div>
+  <div class="pad">
+    <div class="between" style="margin-bottom:10px"><div class="back" onclick="back()">←</div><div class="h2">Blood Tests</div><div class="back" onclick="go('cart')">🛒</div></div>
+    <div class="searchbar" style="border:1.5px solid var(--line);box-shadow:none" onclick="go('search')"><svg class="pulse" viewBox="0 0 24 24" fill="none" stroke="#2C9C9C" stroke-width="2" stroke-linecap="round"><path d="M2 12h4l2-6 3 12 2.5-7 1.5 4 1.5-3H22"/></svg><input placeholder="Search CBC, Thyroid, Vitamin…" readonly></div>
+    <div class="hscroll" style="margin:12px -16px 6px"><div class="chip on">Popular</div><div class="chip">Fever</div><div class="chip">STD</div><div class="chip">Vitamins</div><div class="chip">Diabetes</div><div class="chip">Thyroid</div><div class="chip">Heart</div></div>
+    <div class="between" style="margin:8px 2px"><span class="sm muted">128 packages</span><div class="row" style="gap:8px"><span class="chip" style="padding:7px 12px">⇅ Sort</span><span class="chip" style="padding:7px 12px">⚙ Filter</span></div></div>
+
+    <!-- list of package cards (vertical) -->
+    <div class="card" style="border:1px solid var(--line);overflow:hidden;padding:0;margin-top:6px;cursor:pointer" onclick="go('detail')">
+      <div style="padding:13px"><div class="between"><div class="h3">Healthy India 2026 Full Body Lite</div><span class="pill green">🏠 Home</span></div>
+        <div class="row" style="gap:14px;margin-top:7px"><span class="sm teal b">🧪 80 Tests</span><span class="xs muted">⏱ 14h</span><span class="xs muted">★ 4.8</span></div>
+        <div class="divider"></div>
+        <div class="between"><div><span class="b" style="font-size:16px">₹1046</span> <span class="strike sm">₹4548</span> <span class="pill coral">77% off</span></div><span class="btn-teal" style="padding:8px 16px">Add +</span></div></div>
+    </div>
+    <div class="card" style="border:1px solid var(--line);overflow:hidden;padding:0;margin-top:11px;cursor:pointer" onclick="go('detail')">
+      <div style="padding:13px"><div class="between"><div class="h3">Prime Care Diabetic Checkup</div><span class="pill green">🏠 Home</span></div>
+        <div class="row" style="gap:14px;margin-top:7px"><span class="sm teal b">🧪 71 Tests</span><span class="xs muted">⏱ 24h</span><span class="xs muted">★ 4.9</span></div>
+        <div class="divider"></div>
+        <div class="between"><div><span class="b" style="font-size:16px">₹904</span> <span class="strike sm">₹3920</span> <span class="pill coral">77% off</span></div><span class="btn-teal" style="padding:8px 16px">Add +</span></div></div>
+    </div>
+    <div class="card" style="border:1px solid var(--line);overflow:hidden;padding:0;margin-top:11px;cursor:pointer" onclick="go('detail')">
+      <div style="padding:13px"><div class="between"><div class="h3">Vitamin B12 Test</div><span class="pill green">🏠 Home</span></div>
+        <div class="row" style="gap:14px;margin-top:7px"><span class="sm teal b">🧪 1 Test</span><span class="xs muted">⏱ 12h</span><span class="xs muted">★ 4.9</span></div>
+        <div class="divider"></div>
+        <div class="between"><div><span class="b" style="font-size:16px">₹499</span> <span class="strike sm">₹800</span> <span class="pill coral">38% off</span></div><span class="btn-teal" style="padding:8px 16px">Add +</span></div></div>
+    </div>
+
+    <div class="card" style="margin-top:14px;position:sticky;bottom:0;box-shadow:var(--shadow)">
+      <div class="between"><div><div class="xs muted">2 items in cart</div><div class="h3">₹1,545</div></div><button class="cta" style="width:auto;padding:13px 24px" onclick="go('cart')">View Cart</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DETAIL ===== -->
+<section class="screen" id="screen-detail">
+  <div class="hdr" style="border-radius:0 0 22px 22px">
+    <div class="statuspad"></div>
+    <div class="between"><div class="back" onclick="back()">←</div><div class="row" style="gap:8px"><div class="back">♡</div><div class="back" onclick="go('cart')">🛒</div></div></div>
+    <div style="margin-top:10px"><span class="pill green">🏠 Home Sample Collection</span></div>
+    <h1 class="h1" style="margin-top:8px">Healthy India 2026 Full Body Lite</h1>
+    <div class="row" style="gap:14px;margin-top:6px"><span class="sm teal b">🧪 80 Tests</span><span class="xs muted">⏱ Report in 14h</span><span class="xs muted">★ 4.8 (12k)</span></div>
+  </div>
+  <div class="pad">
+    <div class="card"><div class="between"><div><span style="font-size:21px" class="b">₹1046</span> <span class="strike sm">₹4548</span></div><span class="pill coral">Save ₹3502 (77%)</span></div></div>
+
+    <div class="h3" style="margin:18px 2px 8px">Included parameters (80)</div>
+    <div class="card" style="padding:6px 14px">
+      <div class="list-row"><span class="dot" style="background:var(--teal)"></span><span class="sm b" style="flex:1">Complete Blood Count (CBC)</span><span class="xs muted">28 params</span></div>
+      <div class="list-row"><span class="dot" style="background:var(--teal)"></span><span class="sm b" style="flex:1">Lipid Profile</span><span class="xs muted">8 params</span></div>
+      <div class="list-row"><span class="dot" style="background:var(--teal)"></span><span class="sm b" style="flex:1">Liver & Kidney Function</span><span class="xs muted">22 params</span></div>
+      <div class="list-row" style="border:0"><span class="dot" style="background:var(--teal)"></span><span class="sm b" style="flex:1">Thyroid + Vitamin D, B12</span><span class="xs muted">22 params</span></div>
+    </div>
+
+    <div class="h3" style="margin:18px 2px 8px">Preparation</div>
+    <div class="card"><div class="kv" style="border:0"><span>🍽 Fasting</span><span class="b">10–12 hrs required</span></div><div class="kv" style="border:0"><span>⏰ Best time</span><span class="b">Morning 6–9 AM</span></div></div>
+
+    <div class="card list-row" style="border:0;margin-top:14px"><span class="ico">📄</span><div style="flex:1"><div class="sm b">View sample report</div><div class="xs muted">See how results are presented</div></div><span>›</span></div>
+    <div class="card list-row" style="border:0;margin-top:10px"><span class="ico">❓</span><div style="flex:1"><div class="sm b">FAQs</div><div class="xs muted">14 common questions</div></div><span>›</span></div>
+
+    <div class="h3" style="margin:18px 2px 8px">Reviews</div>
+    <div class="card"><div class="between"><div class="row"><div class="navav" style="width:34px;height:34px;font-size:13px">M</div><div><div class="sm b">Meera K.</div><div class="xs muted">Verified · 2d ago</div></div></div><span class="pill green">★ 5.0</span></div>
+      <p class="sm muted" style="margin:9px 0 0">On-time collection, painless, report in 8 hrs. Excellent.</p></div>
+  </div>
+  <div style="position:sticky;bottom:0;padding:11px 16px;background:var(--bg);border-top:1px solid var(--line)">
+    <div class="row"><button class="cta ghost" style="width:auto;padding:15px 18px" onclick="go('cart')">＋ Cart</button><button class="cta" style="flex:1" onclick="go('cart')">Book Now · ₹1046</button></div>
+  </div>
+</section>
+
+<!-- ===== CART ===== -->
+<section class="screen" id="screen-cart"><div class="statuspad"></div>
+  <div class="pad">
+    <div class="between" style="margin-bottom:12px"><div class="back" onclick="back()">←</div><div class="h2">Your Cart</div><div style="width:36px"></div></div>
+    <div class="card"><div class="between"><div style="flex:1"><div class="sm b">Full Body Checkup Lite</div><div class="xs muted">80 tests · Home collection</div></div><div style="text-align:right"><div class="b">₹1046</div><div class="xs teal" style="cursor:pointer">Remove</div></div></div></div>
+    <div class="card" style="margin-top:10px"><div class="between"><div style="flex:1"><div class="sm b">Vitamin B12 Test</div><div class="xs muted">1 test · Home collection</div></div><div style="text-align:right"><div class="b">₹499</div><div class="xs teal" style="cursor:pointer">Remove</div></div></div></div>
+
+    <div class="searchbar" style="border:1.5px dashed var(--line);box-shadow:none;margin-top:14px"><span>🎟️</span><input placeholder="Apply coupon code" value="HEALTH70"><span class="teal b sm">Apply</span></div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="kv"><span>Item total</span><span class="b">₹1,545</span></div>
+      <div class="kv"><span>Home collection</span><span class="pill green">FREE</span></div>
+      <div class="kv"><span>Coupon HEALTH70</span><span class="green b">– ₹400</span></div>
+      <div class="kv"><span>Wallet</span><span class="green b">– ₹150</span></div>
+      <div class="between" style="margin-top:10px"><span class="b">To pay</span><span class="h3">₹995</span></div>
+    </div>
+    <button class="cta" style="margin-top:14px" onclick="go('checkout')">Proceed to Book</button>
+  </div>
+</section>
+
+<!-- ===== CHECKOUT (members/address/slot) ===== -->
+<section class="screen" id="screen-checkout"><div class="statuspad"></div>
+  <div class="pad">
+    <div class="between" style="margin-bottom:12px"><div class="back" onclick="back()">←</div><div class="h2">Booking Details</div><div style="width:36px"></div></div>
+
+    <div class="h3" style="margin:2px 2px 9px">1 · Select members</div>
+    <div class="hscroll" style="margin:0 -16px 4px">
+      <div style="text-align:center;min-width:66px"><div class="navav" style="margin:auto;outline:2.5px solid var(--teal);outline-offset:2px">H</div><div class="xs b" style="margin-top:7px">You</div></div>
+      <div style="text-align:center;min-width:66px"><div class="navav" style="margin:auto;background:linear-gradient(135deg,#F2994A,#EE6C4D)">P</div><div class="xs" style="margin-top:7px">Priya</div></div>
+      <div style="text-align:center;min-width:66px"><div class="navav" style="margin:auto;background:var(--soft);color:var(--muted)">＋</div><div class="xs muted" style="margin-top:7px">Add</div></div>
+    </div>
+
+    <div class="h3" style="margin:18px 2px 9px">2 · Collection address</div>
+    <div class="card list-row" style="border:0"><span class="ico">🏠</span><div style="flex:1"><div class="sm b">Home · Bandra West</div><div class="xs muted">402, Sea Breeze, Carter Rd, 400050</div></div><span class="pill blue">Change</span></div>
+
+    <div class="h3" style="margin:18px 2px 9px">3 · Sample collection date</div>
+    <div class="hscroll" style="margin:0 -16px 8px"><div class="chip">Today</div><div class="chip on">Tomorrow</div><div class="chip">Sat 20</div><div class="chip">Sun 21</div></div>
+    <div class="h3" style="margin:6px 2px 9px">4 · Time slot</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px">
+      <div class="chip" style="justify-content:center">6–7 AM</div><div class="chip on" style="justify-content:center">7–8 AM</div><div class="chip" style="justify-content:center">8–9 AM</div>
+      <div class="chip" style="justify-content:center">9–10 AM</div><div class="chip" style="justify-content:center">10–11</div><div class="chip" style="justify-content:center">5–6 PM</div>
+    </div>
+
+    <div class="card" style="margin-top:16px"><div class="between"><div><div class="xs muted">To pay</div><div class="h3">₹995</div></div><button class="cta" style="width:auto;padding:14px 26px" onclick="go('confirm')">Confirm & Pay</button></div></div>
+  </div>
+</section>
+
+<!-- ===== CONFIRM ===== -->
+<section class="screen" id="screen-confirm"><div class="statuspad"></div>
+  <div class="pad" style="text-align:center">
+    <div style="margin-top:24px;font-size:64px">✅</div>
+    <h1 class="h1" style="margin-top:10px">Booking Confirmed!</h1>
+    <p class="muted sm">An SMS with your slot details has been sent to +91 98765 43210.</p>
+    <div class="card" style="text-align:left;margin-top:16px">
+      <div class="kv"><span>Booking ID</span><span class="b">#HTH88421</span></div>
+      <div class="kv"><span>For</span><span class="b">Harshal, Priya</span></div>
+      <div class="kv"><span>Slot</span><span class="b">Tomorrow · 7–8 AM</span></div>
+      <div class="kv" style="border:0"><span>Paid</span><span class="b green">₹995</span></div>
+    </div>
+    <button class="cta" style="margin-top:16px" onclick="go('tracking')">Track Collection</button>
+    <button class="cta ghost" style="margin-top:11px" onclick="go('home')">Back to Home</button>
+  </div>
+</section>
+
+<!-- ===== TRACKING ===== -->
+<section class="screen" id="screen-tracking"><div class="statuspad"></div>
+  <div class="pad">
+    <div class="between" style="margin-bottom:12px"><div class="back" onclick="go('home')">←</div><div class="h2">Track Collection</div><div style="width:36px"></div></div>
+    <div class="card" style="background:var(--teal-grad);color:#fff">
+      <div class="between"><div><div class="xs" style="opacity:.85">#HTH88421</div><div class="h3">Phlebotomist on the way</div></div><div style="font-size:32px">🚐</div></div>
+      <div style="background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:13px;margin-top:12px;padding:10px 12px"><div class="row"><div class="navav" style="width:36px;height:36px;font-size:13px;background:#fff;color:var(--teal)">R</div><div style="flex:1"><div class="sm b">Rahul S.</div><div class="xs" style="opacity:.85">Certified · ★ 4.9</div></div><div class="row" style="gap:10px"><span>📞</span><span>💬</span></div></div></div>
+    </div>
+    <div class="map" style="margin-top:12px"><span class="pin" style="top:18px;left:38px">🏠</span><span class="pin" style="bottom:26px;right:46px">📍</span><span style="position:absolute;top:54%;left:46%;font-size:23px">🛵</span></div>
+    <div class="card" style="margin-top:12px"><div class="tracker">
+      <div class="step"><div class="line"><div class="d done">✓</div><div class="s" style="background:var(--green)"></div></div><div style="padding-bottom:16px"><div class="sm b">Booking confirmed</div><div class="xs muted">Tomorrow · 7–8 AM</div></div></div>
+      <div class="step"><div class="line"><div class="d done">✓</div><div class="s" style="background:var(--green)"></div></div><div style="padding-bottom:16px"><div class="sm b">Phlebotomist assigned</div><div class="xs muted">Rahul S. · ~12 min away</div></div></div>
+      <div class="step"><div class="line"><div class="d now"></div><div class="s"></div></div><div style="padding-bottom:16px"><div class="sm b teal">On the way</div><div class="xs muted">Live tracking active</div></div></div>
+      <div class="step"><div class="line"><div class="d"></div><div class="s"></div></div><div style="padding-bottom:16px"><div class="sm muted">Sample collected</div></div></div>
+      <div class="step"><div class="line"><div class="d"></div></div><div><div class="sm muted">Report ready (within 14h)</div></div></div>
+    </div></div>
+    <button class="cta ghost" style="margin-top:14px" onclick="go('reports')">View my reports</button>
+  </div>
+</section>
+
+<!-- ===== CARE ===== -->
+<section class="screen" id="screen-care"><div class="statuspad"></div>
+  <div class="pad">
+    <div class="h1" style="margin:4px 0 3px">Care</div>
+    <p class="muted sm" style="margin-top:0">Consult doctors, book scans & diet plans.</p>
+    <div class="seg" style="margin-top:6px"><button class="on">Consult</button><button>Scans</button><button>Diet</button></div>
+
+    <div class="hscroll" style="margin:16px -16px 4px"><div class="chip on">📹 Video</div><div class="chip">📞 Audio</div><div class="chip">💬 Chat</div></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px;text-align:center">
+      <div onclick="go('detail')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">🩺</div><div class="xs" style="margin-top:5px">Physician</div></div>
+      <div onclick="go('detail')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">❤️</div><div class="xs" style="margin-top:5px">Cardio</div></div>
+      <div onclick="go('detail')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">🧴</div><div class="xs" style="margin-top:5px">Derma</div></div>
+      <div onclick="go('detail')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">🥗</div><div class="xs" style="margin-top:5px">Diet</div></div>
+      <div onclick="go('detail')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">🦴</div><div class="xs" style="margin-top:5px">Ortho</div></div>
+      <div onclick="go('detail')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">👶</div><div class="xs" style="margin-top:5px">Pediatric</div></div>
+      <div onclick="go('detail')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">🌸</div><div class="xs" style="margin-top:5px">Gyn</div></div>
+      <div onclick="go('detail')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">🧠</div><div class="xs" style="margin-top:5px">Mental</div></div>
+    </div>
+
+    <div class="between" style="margin:20px 2px 10px"><div class="h2">Available now</div><span class="sm teal b">See all</span></div>
+    <div class="card" style="cursor:pointer" onclick="go('detail')"><div class="row"><div class="navav" style="width:50px;height:50px;background:linear-gradient(135deg,#4A86E8,#2C9C9C)">A</div>
+      <div style="flex:1"><div class="h3">Dr. Anjali Mehta</div><div class="xs muted">Cardiologist · 14 yrs</div><div class="row" style="gap:7px;margin-top:5px"><span class="pill green">★ 4.9</span><span class="pill blue">Online</span></div></div>
+      <div style="text-align:right"><div class="b">₹599</div><div class="xs muted">/ visit</div></div></div></div>
+    <div class="card" style="margin-top:11px;cursor:pointer" onclick="go('detail')"><div class="row"><div class="navav" style="width:50px;height:50px;background:linear-gradient(135deg,#2FB479,#2C9C9C)">S</div>
+      <div style="flex:1"><div class="h3">Dr. Sameer Rao</div><div class="xs muted">Physician · 9 yrs</div><div class="row" style="gap:7px;margin-top:5px"><span class="pill green">★ 4.8</span><span class="pill amber">in 15 min</span></div></div>
+      <div style="text-align:right"><div class="b">₹399</div><div class="xs muted">/ visit</div></div></div></div>
+
+    <div class="between" style="margin:20px 2px 10px"><div class="h2">Scans & Imaging</div></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center">
+      <div onclick="go('checkout')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">🧲</div><div class="xs" style="margin-top:5px">MRI</div></div>
+      <div onclick="go('checkout')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">🩻</div><div class="xs" style="margin-top:5px">CT</div></div>
+      <div onclick="go('checkout')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">📡</div><div class="xs" style="margin-top:5px">X-Ray</div></div>
+      <div onclick="go('checkout')" style="cursor:pointer"><div class="ico" style="margin:auto;width:52px;height:52px;font-size:22px">🔊</div><div class="xs" style="margin-top:5px">USG</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VITALS ===== -->
+<section class="screen" id="screen-vitals"><div class="statuspad"></div>
+  <div class="pad">
+    <div class="h1" style="margin:4px 0 3px">Vitals</div>
+    <p class="muted sm" style="margin-top:0">Health Karma · trackers · trends.</p>
+
+    <div class="card" style="text-align:center;background:linear-gradient(135deg,#E6F4EC,#E3F1F6);margin-top:6px">
+      <div class="h3 teal" style="font-weight:700">Health Karma Score</div>
+      <div class="gauge" style="margin-top:6px"><svg width="130" height="130" viewBox="0 0 130 130" style="transform:rotate(-90deg)">
+        <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(44,156,156,.18)" stroke-width="11"/>
+        <circle cx="65" cy="65" r="54" fill="none" stroke="#2C9C9C" stroke-width="11" stroke-linecap="round" stroke-dasharray="339" stroke-dashoffset="64"/></svg>
+        <div class="num"><div><div style="font-size:36px;font-weight:800;line-height:1">81</div><div class="xs muted">/ 100</div></div></div></div>
+      <span class="pill green" style="margin-top:6px">▲ 6 this month</span>
+    </div>
+
+    <div class="card" style="margin-top:12px"><div class="sm b coral">⚠️ You need improvement in</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;text-align:center">
+        <div>💊<div class="xs b">Vitamin-B12</div><div class="xs muted">101 pg/ml</div></div>
+        <div>🥓<div class="xs b">LDL</div><div class="xs muted">107 mg/dL</div></div>
+        <div>🟡<div class="xs b">Vitamin-D</div><div class="xs muted">29 ng/mL</div></div></div>
+    </div>
+
+    <div class="h2" style="margin:20px 2px 10px">Trackers</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+      <div class="card"><div class="between"><span class="sm b">⚖️ Weight</span><span class="b">72 kg</span></div><div class="bar" style="margin-top:8px"><i style="width:60%"></i></div></div>
+      <div class="card"><div class="between"><span class="sm b">🩸 Sugar</span><span class="b">98 mg/dL</span></div><div class="bar" style="margin-top:8px"><i style="width:50%;background:var(--green)"></i></div></div>
+      <div class="card"><div class="between"><span class="sm b">💓 BP</span><span class="b">120/80</span></div><div class="bar" style="margin-top:8px"><i style="width:70%"></i></div></div>
+      <div class="card"><div class="between"><span class="sm b">👟 Steps</span><span class="b">7,840</span></div><div class="bar" style="margin-top:8px"><i style="width:78%;background:var(--orange)"></i></div></div>
+    </div>
+
+    <div class="between" style="margin:20px 2px 10px"><div class="h2">HbA1c trend</div><span class="chip" style="padding:6px 12px">6 months</span></div>
+    <div class="card"><div class="between"><div><div class="xs muted">Latest</div><div class="h2 green">5.4%</div><span class="pill green">In range ▼ 0.3</span></div>
+      <svg width="170" height="80" viewBox="0 0 170 80"><polyline fill="none" stroke="#2C9C9C" stroke-width="3.5" stroke-linecap="round" points="6,54 38,48 70,52 102,36 134,40 164,24"/><circle cx="164" cy="24" r="4.5" fill="#2C9C9C"/></svg></div>
+      <div class="row xs muted" style="justify-content:space-between;margin-top:6px"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div></div>
+
+    <div class="card" style="margin-top:12px;background:var(--teal-grad);color:#fff;cursor:pointer" onclick="go('wellio')">
+      <div class="row"><div style="font-size:24px">🤖</div><div style="flex:1"><div class="h3">Ask Wellio</div><div class="xs" style="opacity:.9">Get 3 actions to improve your score</div></div><span>›</span></div></div>
+
+    <div class="h2" style="margin:20px 2px 10px">Connected</div>
+    <div class="hscroll" style="margin:0 -16px"><div class="chip on"> Apple Health</div><div class="chip">Google Fit</div><div class="chip">Fitbit</div><div class="chip">Garmin</div></div>
+  </div>
+</section>
+
+<!-- ===== REPORTS ===== -->
+<section class="screen" id="screen-reports"><div class="statuspad"></div>
+  <div class="pad">
+    <div class="between" style="margin-bottom:10px"><div class="back" onclick="back()">←</div><div class="h2">My Reports</div><div style="width:36px"></div></div>
+    <div class="card" style="background:linear-gradient(135deg,#E6F4EC,#E3F1F6);cursor:pointer" onclick="go('wellio')"><div class="row"><div style="font-size:24px">🤖</div><div style="flex:1"><div class="h3">Smart Report Summary</div><div class="xs muted">2 abnormal values · Wellio explains them</div></div><span>›</span></div></div>
+
+    <div class="seg" style="margin-top:14px"><button class="on">Reports</button><button>Diet Plan</button></div>
+
+    <div class="card list-row" style="border:0;margin-top:12px" onclick="go('wellio')"><span class="ico">🩸</span><div style="flex:1"><div class="sm b">Full Body Checkup</div><div class="xs muted">18 Jun 2026 · 80 params</div></div><div style="text-align:right"><span class="pill amber">2 flags</span><div class="xs muted" style="margin-top:3px">PDF ↓ · ↗</div></div></div>
+    <div class="card list-row" style="border:0;margin-top:9px"><span class="ico">🦋</span><div style="flex:1"><div class="sm b">Thyroid Profile</div><div class="xs muted">02 May 2026 · 3 params</div></div><div style="text-align:right"><span class="pill green">Normal</span><div class="xs muted" style="margin-top:3px">PDF ↓ · ↗</div></div></div>
+    <div class="card list-row" style="border:0;margin-top:9px"><span class="ico">💊</span><div style="flex:1"><div class="sm b">Vitamin Panel</div><div class="xs muted">10 Mar 2026 · 4 params</div></div><div style="text-align:right"><span class="pill coral">1 flag</span><div class="xs muted" style="margin-top:3px">PDF ↓ · ↗</div></div></div>
+
+    <div class="h2" style="margin:18px 2px 10px">Key markers</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+      <div class="card"><div class="xs muted">Vitamin D</div><div class="h3 orange">29 ng/mL</div><div class="bar" style="margin-top:7px"><i style="width:45%;background:var(--orange)"></i></div></div>
+      <div class="card"><div class="xs muted">Cholesterol</div><div class="h3 green">168 mg/dL</div><div class="bar" style="margin-top:7px"><i style="width:70%;background:var(--green)"></i></div></div>
+      <div class="card"><div class="xs muted">Vitamin B12</div><div class="h3 coral">101 pg/ml</div><div class="bar" style="margin-top:7px"><i style="width:35%;background:var(--coral)"></i></div></div>
+      <div class="card"><div class="xs muted">LDL</div><div class="h3 orange">107 mg/dL</div><div class="bar" style="margin-top:7px"><i style="width:58%;background:var(--orange)"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WELLIO AI ===== -->
+<section class="screen" id="screen-wellio">
+  <div class="hdr" style="border-radius:0 0 18px 18px;padding-bottom:12px">
+    <div class="statuspad"></div>
+    <div class="between"><div class="row"><div class="back" onclick="back()">←</div><div style="font-size:26px">🤖</div><div><div class="h3">Wellio</div><div class="xs" style="color:var(--green)">● Online · your health assistant</div></div></div><div class="back">🎤</div></div>
+  </div>
+  <div class="pad">
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div class="bubble ai">Hi Harshal 👋 I reviewed your Full Body Checkup (18 Jun). Want me to explain it?</div>
+      <div class="bubble me">Why is my Vitamin B12 low?</div>
+      <div class="bubble ai">Your <b>B12 is 101 pg/ml</b> (normal 200–900). Common in vegetarians — causes fatigue & tingling.<br><br><b>3-step plan:</b><br>1️⃣ B12 supplement (1000 mcg)<br>2️⃣ Recheck in 8 weeks<br>3️⃣ Consult if symptoms persist
+        <div class="hscroll" style="margin:10px -2px 0;padding:0;gap:8px"><span class="chip" style="padding:7px 12px" onclick="go('blood')">Book recheck</span><span class="chip" style="padding:7px 12px" onclick="go('care')">Consult</span></div></div>
+      <div class="bubble me">What should I eat?</div>
+      <div class="bubble ai">B12-rich plan 🍽️: dairy, eggs, fortified cereals, nutritional yeast. I can build a full 7-day veg diet plan.</div>
+    </div>
+    <div class="h3 muted xs" style="margin:16px 2px 8px">SUGGESTED</div>
+    <div class="hscroll" style="margin:0 -16px;gap:8px"><span class="chip">Explain my report</span><span class="chip">Reduce cholesterol</span><span class="chip">Which package?</span><span class="chip">Predict risks</span></div>
+  </div>
+  <div style="position:sticky;bottom:0;padding:11px 16px;background:var(--bg);border-top:1px solid var(--line)">
+    <div class="searchbar" style="margin:0"><span>＋</span><input placeholder="Ask Wellio anything…"><span style="font-size:17px">🎙</span><span class="navav" style="width:32px;height:32px">↑</span></div>
+  </div>
+</section>
+
+<!-- ===== NOTIFICATIONS ===== -->
+<section class="screen" id="screen-notifications"><div class="statuspad"></div>
+  <div class="pad">
+    <div class="between" style="margin-bottom:12px"><div class="back" onclick="back()">←</div><div class="h2">Notifications</div><span class="xs teal b">Mark all read</span></div>
+    <div class="card list-row" style="border:0"><span class="ico" style="background:rgba(47,180,121,.12)">📄</span><div style="flex:1"><div class="sm b">Your report is ready</div><div class="xs muted">Full Body Checkup · tap to view</div></div><span class="dot" style="background:var(--teal)"></span></div>
+    <div class="card list-row" style="border:0;margin-top:9px"><span class="ico" style="background:rgba(74,134,232,.12)">🚐</span><div style="flex:1"><div class="sm b">Phlebotomist assigned</div><div class="xs muted">Rahul arrives 7–8 AM tomorrow</div></div></div>
+    <div class="card list-row" style="border:0;margin-top:9px"><span class="ico" style="background:rgba(242,153,74,.14)">⏰</span><div style="flex:1"><div class="sm b">Fasting reminder</div><div class="xs muted">Start 10–12h fast tonight</div></div></div>
+    <div class="card list-row" style="border:0;margin-top:9px"><span class="ico" style="background:rgba(238,108,77,.12)">🎁</span><div style="flex:1"><div class="sm b">70% off your next booking</div><div class="xs muted">Limited time offer · expires soon</div></div></div>
+  </div>
+</section>
+
+<!-- ===== PROFILE ===== -->
+<section class="screen" id="screen-profile"><div class="statuspad"></div>
+  <div class="pad">
+    <div class="h1" style="margin:4px 0 12px">Profile</div>
+    <div class="card" style="background:var(--teal-grad);color:#fff"><div class="row"><div class="navav" style="width:54px;height:54px;background:#fff;color:var(--teal);font-size:20px">H</div>
+      <div style="flex:1"><div class="h2">Harshal Patil</div><div class="xs" style="opacity:.9">+91 98765 43210</div></div></div>
+      <div style="background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:13px;margin-top:12px;padding:10px 14px"><div class="between"><div><div class="xs" style="opacity:.85">Membership</div><div class="b">🏆 Prime Gold</div></div><span class="pill" style="background:rgba(255,255,255,.25);color:#fff">Renew</span></div></div></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px">
+      <div class="card" style="text-align:center"><div class="h2 teal">₹1,175</div><div class="xs muted">Wallet</div></div>
+      <div class="card" style="text-align:center"><div class="h2 orange">820 ⭐</div><div class="xs muted">Reward points</div></div>
+    </div>
+
+    <div class="h3 muted xs" style="margin:18px 2px 8px">MY HEALTH</div>
+    <div class="card" style="padding:2px 14px">
+      <div class="list-row" onclick="go('reports')">📄 <span class="sm b" style="flex:1">My reports</span><span>›</span></div>
+      <div class="list-row">🗂️ <span class="sm b" style="flex:1">Family Health Vault</span><span>›</span></div>
+      <div class="list-row">👨‍👩‍👧 <span class="sm b" style="flex:1">Family members</span><span class="pill blue">2</span><span>›</span></div>
+      <div class="list-row" style="border:0">🚨 <span class="sm b" style="flex:1;color:var(--red)">Emergency SOS</span><span class="pill coral">Setup</span></div>
+    </div>
+
+    <div class="h3 muted xs" style="margin:18px 2px 8px">ACCOUNT</div>
+    <div class="card" style="padding:2px 14px">
+      <div class="list-row">📍 <span class="sm b" style="flex:1">Addresses</span><span>›</span></div>
+      <div class="list-row">🛡️ <span class="sm b" style="flex:1">Insurance</span><span>›</span></div>
+      <div class="list-row">💳 <span class="sm b" style="flex:1">Payment methods</span><span>›</span></div>
+      <div class="list-row" style="border:0" onclick="go('notifications')">🔔 <span class="sm b" style="flex:1">Notifications</span><span>›</span></div>
+    </div>
+
+    <div class="h3 muted xs" style="margin:18px 2px 8px">MORE</div>
+    <div class="card" style="padding:2px 14px">
+      <div class="list-row">🎁 <span class="sm b" style="flex:1">Refer & earn ₹200</span><span>›</span></div>
+      <div class="list-row">💬 <span class="sm b" style="flex:1">Help center</span><span>›</span></div>
+      <div class="list-row" style="border:0;color:var(--red)" onclick="go('login')">⎋ <span class="sm b" style="flex:1">Log out</span></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+  <!-- fixed nav layer (stays pinned, outside the scroll area) -->
+  <div id="navhost" style="display:none">
+    <div class="calltobook" onclick="openCall()"><div class="pgreen">📞</div><span>Call to Book</span></div>
+    <div class="tabbar">
+      <div class="navav" onclick="go('wellio')">🤖<span class="nb">New</span></div>
+      <div class="tab" data-tab="home" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></div>
+      <div class="tab" data-tab="care" onclick="go('care')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></svg><span>Care</span></div>
+      <div class="tab" data-tab="vitals" onclick="go('vitals')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg><span>Vitals</span></div>
+      <div class="tab" data-tab="profile" onclick="go('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span>Profile</span></div>
+    </div>
+  </div>
+
+  <!-- call modal -->
+  <div class="overlay" id="callModal">
+    <div class="modal">
+      <div class="x" onclick="closeCall()">✕</div>
+      <div style="font-size:46px">👨‍⚕️👩‍⚕️</div>
+      <div class="divider"></div>
+      <div class="sm b" style="color:var(--green)">*10k+ users benefitted in the last 24 hours</div>
+      <div class="divider"></div>
+      <div class="h3" style="color:var(--blue);line-height:1.4;margin:6px 0 14px">Talk to our health advisors now for attractive discounts on your bookings</div>
+      <button class="cta" onclick="closeCall()">📞 Call Now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let stack=[];
+const TAB_SCREENS=['home','care','vitals','profile'];
+function go(id,push=true){
+  const el=document.getElementById('screen-'+id); if(!el)return;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active'); el.scrollTop=0;
+  if(push) stack.push(id);
+  const isTab=TAB_SCREENS.includes(id);
+  document.getElementById('navhost').style.display=isTab?'block':'none';
+  document.querySelectorAll('[data-tab]').forEach(t=>t.classList.toggle('active',t.getAttribute('data-tab')===id));
+}
+function back(){ if(stack.length>1){stack.pop();go(stack[stack.length-1],false);} }
+function toggleTheme(){const h=document.documentElement;const d=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeLbl').textContent=d?'Dark mode':'Light mode';}
+function openCall(){document.getElementById('callModal').classList.add('show');}
+function closeCall(){document.getElementById('callModal').classList.remove('show');}
+setInterval(()=>{const n=new Date();document.getElementById('clock').textContent=
+  n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');},1000);
+
+/* onboarding */
+const OB=[
+  ['🏠','Book Lab Tests @ Home','Doorstep sample collection by certified phlebotomists. Pick a slot — no clinics, no queues.'],
+  ['📈','Track Your Health Journey','Every report, trend and milestone in one place. Watch your numbers improve over time.'],
+  ['🤖','Wellio — AI Health Assistant','Your personal assistant explains reports, predicts risks and recommends tests in plain language.'],
+  ['🩺','Consult Doctors Anytime','Video, audio or chat with top specialists in minutes. Free diet consultation included.']
+];
+let obi=0;
+function obNext(){obi++;if(obi>=OB.length){go('login');obi=0;return;}obRender();}
+function obRender(){
+  document.getElementById('obArt').textContent=OB[obi][0];
+  document.getElementById('obTitle').textContent=OB[obi][1];
+  document.getElementById('obText').textContent=OB[obi][2];
+  document.getElementById('obBtn').textContent=obi===OB.length-1?'Get Started':'Next';
+  document.getElementById('obDots').innerHTML=OB.map((_,i)=>`<i class="${i===obi?'on':''}"></i>`).join('');
+}
+
+/* screen index */
+const SCREENS=[['splash','Splash','❤️‍🩹'],['onboarding','Onboarding','👋'],['login','Login','🔐'],['otp','OTP','#️⃣'],
+  ['home','Home','🏠'],['search','Search','🔍'],['blood','Blood Tests','🩸'],['detail','Package Detail','🔬'],
+  ['cart','Cart','🛒'],['checkout','Members/Slot','📅'],['confirm','Confirmation','✅'],['tracking','Tracking','🛵'],
+  ['care','Care','🩺'],['vitals','Vitals','📊'],['reports','Reports','📄'],['wellio','Wellio AI','🤖'],
+  ['notifications','Notifications','🔔'],['profile','Profile','👤']];
+(function(){document.getElementById('idxGrid').innerHTML=SCREENS.map(s=>
+  `<div class="card" style="text-align:center;cursor:pointer;padding:16px 8px" onclick="go('${s[0]}')">
+   <div style="font-size:24px">${s[2]}</div><div class="xs b" style="margin-top:6px">${s[1]}</div></div>`).join('');})();
+
+stack=['splash'];
+</script>
+</body>
+</html>
